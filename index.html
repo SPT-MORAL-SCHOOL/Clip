@@ -1,332 +1,520 @@
-<!-- submission_form.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ประกวดคลิปโครงงานคุณธรรม - SPT Moral School</title>
-  <style>
-    :root{
-      --blue:#1f5fbf;
-      --blue-2:#3b6fd6;
-      --bg:#f7fbff;
-    }
-    body{
-      margin:0;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(180deg, rgba(245,250,255,1) 0%, rgba(250,252,255,1) 100%);
-      color:#0b2340;
-      -webkit-font-smoothing:antialiased;
-    }
-    .container{
-      max-width:920px;
-      margin:30px auto;
-      padding:20px;
-    }
-    header{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding:12px 0;
-    }
-    .logos img{height:64px; border-radius:8px; background:white; padding:6px}
-    h1{margin:0;font-size:24px;letter-spacing:0.6px}
-    .card{
-      background: rgba(255,255,255,0.85);
-      border-radius:14px;
-      box-shadow: 0 8px 30px rgba(15,30,60,0.08);
-      padding:18px;
-      margin-top:18px;
-    }
-    label{display:block;margin:10px 0 6px;font-weight:600}
-    .row{display:flex;gap:12px;flex-wrap:wrap}
-    .col{flex:1 1 220px;min-width:160px}
-    input[type="text"], input[type="email"], select, textarea {
-      width:100%;
-      padding:10px 12px;border-radius:8px;border:1px solid #d7e6ff;background:rgba(255,255,255,0.9);
-      font-size:15px;
-    }
-    .file-input {
-      border: 2px dashed rgba(31,95,191,0.18);
-      padding:12px;border-radius:10px;text-align:center;background:rgba(31,95,191,0.03);
-      cursor:pointer;
-    }
-    .hint {font-size:13px;color:#5b6e86;margin-top:6px}
-    .submit-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px;flex-wrap:wrap}
-    button.primary{
-      background: linear-gradient(90deg,var(--blue),var(--blue-2));
-      border:none;color:white;padding:12px 18px;border-radius:10px;font-weight:700;
-      box-shadow: 0 6px 18px rgba(59,111,214,0.18);
-      cursor:pointer;
-    }
-    button.secondary{background:transparent;border:1px solid rgba(31,95,191,0.15);padding:10px 14px;border-radius:8px}
-    .preview {font-size:13px;color:#234; margin-top:8px}
-    .small {font-size:13px;color:#48607f}
-    footer{margin-top:26px;text-align:center;color:#7b8aa5;font-size:13px}
-    @media (max-width:600px){
-      .logos img{height:48px}
-      h1{font-size:18px}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบกรอกข้อมูลการประกวดคลิปวิดีโอโครงงานคุณธรรม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            background-image: url('https://img5.pic.in.th/file/secure-sv1/IMG_25650953161d1c1bbdd8.jpeg');
+            background-size: 300px 300px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-color: #f9fafb;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(249, 250, 251, 0.92);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .gradient-bg { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            position: relative;
+        }
+        .card-shadow { 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.06);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.12), 0 12px 24px rgba(0,0,0,0.08);
+        }
+        .file-upload-area {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+            border-radius: 16px;
+        }
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background-color: #f7fafc;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background-color: #edf2f7;
+            transform: scale(1.02);
+        }
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .input-field {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .input-field:focus {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        .section-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .footer-gradient {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logos">
-        <img src="https://img5.pic.in.th/file/secure-sv1/IMG_0310f4b22b3a3a8d0946.jpeg" alt="School Logo">
-      </div>
-      <div>
-        <h1>SPT MORAL SCHOOL — ประกวดคลิปโครงงานคุณธรรม</h1>
-        <div class="small">โรงเรียนสตรีพัทลุง | คณะกรรมการนักเรียนขับเคลื่อนโรงเรียนคุณธรรม สพฐ.</div>
-      </div>
-      <div style="margin-left:auto">
-        <img src="https://img5.pic.in.th/file/secure-sv1/IMG_25650953161d1c1bbdd8.jpeg" style="height:64px;border-radius:8px;background:white;padding:6px">
-      </div>
-    </header>
-
-    <div class="card">
-      <form id="submissionForm">
-        <!-- Section 1: ข้อมูลนักเรียน -->
-        <label>1. ข้อมูลนักเรียน (จำเป็น)</label>
-        <div class="row">
-          <div class="col">
-            <label>ชื่อ-นามสกุล</label>
-            <input type="text" id="name" required placeholder="ชื่อ-นามสกุล">
-          </div>
-          <div class="col">
-            <label>ระดับชั้น</label>
-            <select id="grade" required>
-              <option value="">-- เลือกระดับชั้น --</option>
-              <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
-              <option value="ม.2">มัธยมศึกษาปีที่ 2</option>
-              <option value="ม.3">มัธยมศึกษาปีที่ 3</option>
-              <option value="ม.4">มัธยมศึกษาปีที่ 4</option>
-              <option value="ม.5">มัธยมศึกษาปีที่ 5</option>
-              <option value="ม.6">มัธยมศึกษาปีที่ 6</option>
-            </select>
-          </div>
-          <div class="col">
-            <label>ห้องเรียน</label>
-            <select id="classroom" required>
-              <option value="">-- เลือกห้อง --</option>
-              <script>
-                // สร้าง option 1..12 อัตโนมัติ
-                for(let i=1;i<=12;i++){
-                  document.write(`<option value="${i}">ห้อง ${i}</option>`);
-                }
-              </script>
-            </select>
-          </div>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="gradient-bg text-white py-8 rounded-b-3xl">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <img src="https://img5.pic.in.th/file/secure-sv1/IMG_25650953161d1c1bbdd8.jpeg" 
+                     alt="โลโก้โรงเรียนคุณธรรม" 
+                     class="w-24 h-24 rounded-full object-cover hover-lift border-4 border-white/30 shadow-2xl"
+                     onerror="this.src=''; this.alt='โลโก้โรงเรียนคุณธรรมไม่สามารถโหลดได้'; this.style.display='none';">
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-3xl font-bold drop-shadow-lg">การประกวดคลิปวิดีโอโครงงานคุณธรรม</h1>
+                    <p class="text-lg opacity-90 drop-shadow-md">โรงเรียนคุณธรรม สพฐ. โรงเรียนสตรีพัทลุง</p>
+                </div>
+            </div>
         </div>
-
-        <div class="row" style="margin-top:8px">
-          <div class="col"><label>เบอร์โทรศัพท์</label><input type="text" id="phone" placeholder="08x-xxx-xxxx"></div>
-          <div class="col"><label>อีเมล (ถ้ามี)</label><input type="email" id="email" placeholder="example@mail.com"></div>
-          <div class="col"><label>ชื่อโครงงาน / ชื่อคลิป</label><input type="text" id="projectTitle" placeholder="ชื่อโครงงาน"></div>
-        </div>
-
-        <!-- Section 2: อัปโหลด + เกณฑ์ -->
-        <hr style="margin:14px 0;border:none;border-top:1px solid #eef6ff">
-        <label>2. อัปโหลด & เกณฑ์การให้คะแนน</label>
-        <div class="small">เกณฑ์การให้คะแนน: <a id="rubricLink" href="#" target="_blank">(จะใส่ลิงก์ที่นี่)</a></div>
-
-        <div style="margin-top:10px">
-          <label>อัปโหลดคลิป (ไฟล์ .mp4) — จำกัดความยาวไม่เกิน 3 นาที</label>
-          <div id="videoDrop" class="file-input">
-            คลิกเพื่อเลือกไฟล์วิดีโอ หรือ ลากแล้ววางที่นี่
-            <input id="videoFile" type="file" accept="video/mp4" style="display:none">
-            <div class="preview" id="videoPreview"></div>
-            <div class="hint">ไฟล์ .mp4 เท่านั้น — ขนาดไฟล์ไม่ควรเกิน 30-50MB (ถ้าใหญ่ให้บีบอัดหรืออัปโหลดผ่าน Drive แล้วส่งลิงก์)</div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <label>อัปโหลดโปสเตอร์ (ไฟล์ .pdf)</label>
-          <div id="posterDrop" class="file-input">
-            คลิกเพื่อเลือกเอกสาร PDF
-            <input id="posterFile" type="file" accept="application/pdf" style="display:none">
-            <div class="preview" id="posterPreview"></div>
-          </div>
-        </div>
-
-        <div class="submit-row">
-          <div class="small">เมื่อข้อมูลครบ กดส่งเพื่อบันทึกลงระบบ</div>
-          <div>
-            <button type="button" class="secondary" id="clearBtn">ล้างแบบฟอร์ม</button>
-            <button type="submit" class="primary">ส่งผลงาน</button>
-          </div>
-        </div>
-      </form>
     </div>
 
-    <footer>© SPT Moral School — โรงเรียนสตรีพัทลุง</footer>
-  </div>
+    <!-- Main Form -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <form id="contestForm" class="space-y-8">
+                <!-- ส่วนที่ 1: ข้อมูลพื้นฐาน -->
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                        <span class="section-number text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 text-sm font-bold">1</span>
+                        ข้อมูลพื้นฐาน
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                ระดับชั้น <span class="text-red-500">*</span>
+                            </label>
+                            <select id="grade" name="grade" required 
+                                    class="input-field w-full px-4 py-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">เลือกระดับชั้น</option>
+                                <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
+                                <option value="ม.2">มัธยมศึกษาปีที่ 2</option>
+                                <option value="ม.3">มัธยมศึกษาปีที่ 3</option>
+                                <option value="ม.4">มัธยมศึกษาปีที่ 4</option>
+                                <option value="ม.5">มัธยมศึกษาปีที่ 5</option>
+                                <option value="ม.6">มัธยมศึกษาปีที่ 6</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                ห้องเรียน <span class="text-red-500">*</span>
+                            </label>
+                            <select id="classroom" name="classroom" required 
+                                    class="input-field w-full px-4 py-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">เลือกห้องเรียน</option>
+                                <option value="1">ห้อง 1</option>
+                                <option value="2">ห้อง 2</option>
+                                <option value="3">ห้อง 3</option>
+                                <option value="4">ห้อง 4</option>
+                                <option value="5">ห้อง 5</option>
+                                <option value="6">ห้อง 6</option>
+                                <option value="7">ห้อง 7</option>
+                                <option value="8">ห้อง 8</option>
+                                <option value="9">ห้อง 9</option>
+                                <option value="10">ห้อง 10</option>
+                                <option value="11">ห้อง 11</option>
+                                <option value="12">ห้อง 12</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-  <script>
-    // ตั้งค่า endpoint ที่ได้จาก Apps Script (แก้ให้เป็นของคุณ)
-    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycby-GdBaM2EBNDScTESt6EyfZoebiYzM4LuPi-jub6tLS1WljDZRjlhH0xn4JC5v93wHeQ/exec"; // <-- เปลี่ยนเป็นของคุณ
-    const RUBRIC_LINK = ""; // ถ้ามีใส่ลิงก์เกณฑ์การให้คะแนนที่นี่
+                <!-- ส่วนที่ 2: เอกสารและไฟล์ -->
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                        <span class="section-number text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 text-sm font-bold">2</span>
+                        เอกสารและไฟล์
+                    </h2>
+                    
+                    <!-- เกณฑ์การให้คะแนน -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            1. เกณฑ์การให้คะแนน
+                        </label>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <p class="text-sm text-blue-800">
+                                📋 เกณฑ์การให้คะแนนจะถูกแนบในภายหลัง
+                            </p>
+                        </div>
+                    </div>
 
-    // แสดงลิงก์เกณฑ์
-    if (RUBRIC_LINK) {
-      document.getElementById('rubricLink').href = RUBRIC_LINK;
-      document.getElementById('rubricLink').innerText = "ดูเกณฑ์การให้คะแนน";
-    } else {
-      document.getElementById('rubricLink').innerText = "ยังไม่มีลิงก์ (จะเพิ่มภายหลัง)";
-    }
+                    <!-- อัปโหลดคลิปวิดีโอ -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            2. อัปโหลดคลิปวิดีโอ (MP4, ความยาวไม่เกิน 3 นาที) <span class="text-red-500">*</span>
+                        </label>
+                        <div class="file-upload-area rounded-lg p-6 text-center cursor-pointer" 
+                             onclick="document.getElementById('videoFile').click()">
+                            <div class="mb-4">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <p class="text-sm text-gray-600">คลิกเพื่อเลือกไฟล์วิดีโอ หรือลากไฟล์มาวางที่นี่</p>
+                            <p class="text-xs text-gray-500 mt-1">รองรับไฟล์ MP4 เท่านั้น (ขนาดไม่เกิน 100MB)</p>
+                        </div>
+                        <input type="file" id="videoFile" name="videoFile" accept=".mp4" required class="hidden">
+                        <div id="videoPreview" class="mt-3 hidden">
+                            <div class="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3">
+                                <div class="flex items-center">
+                                    <svg class="h-5 w-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span id="videoFileName" class="text-sm text-green-800"></span>
+                                </div>
+                                <button type="button" onclick="removeFile('video')" class="text-red-500 hover:text-red-700">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-    const videoFileInput = document.getElementById('videoFile');
-    const posterFileInput = document.getElementById('posterFile');
-    const videoDrop = document.getElementById('videoDrop');
-    const posterDrop = document.getElementById('posterDrop');
-    const videoPreview = document.getElementById('videoPreview');
-    const posterPreview = document.getElementById('posterPreview');
-    let videoFile = null;
-    let posterFile = null;
+                    <!-- อัปโหลดโปสเตอร์ -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            3. อัปโหลดโปสเตอร์ (PDF) <span class="text-red-500">*</span>
+                        </label>
+                        <div class="file-upload-area rounded-lg p-6 text-center cursor-pointer" 
+                             onclick="document.getElementById('posterFile').click()">
+                            <div class="mb-4">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m6 0h6m-6 6v6m-6-6v6m6-6v6" />
+                                </svg>
+                            </div>
+                            <p class="text-sm text-gray-600">คลิกเพื่อเลือกไฟล์โปสเตอร์ หรือลากไฟล์มาวางที่นี่</p>
+                            <p class="text-xs text-gray-500 mt-1">รองรับไฟล์ PDF เท่านั้น (ขนาดไม่เกิน 10MB)</p>
+                        </div>
+                        <input type="file" id="posterFile" name="posterFile" accept=".pdf" required class="hidden">
+                        <div id="posterPreview" class="mt-3 hidden">
+                            <div class="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3">
+                                <div class="flex items-center">
+                                    <svg class="h-5 w-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span id="posterFileName" class="text-sm text-green-800"></span>
+                                </div>
+                                <button type="button" onclick="removeFile('poster')" class="text-red-500 hover:text-red-700">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    // คลิกบริเวณ drop เพื่อเปิด file dialog
-    videoDrop.addEventListener('click', () => videoFileInput.click());
-    posterDrop.addEventListener('click', () => posterFileInput.click());
+                <!-- ปุ่มส่งข้อมูล -->
+                <div class="text-center">
+                    <button type="submit" id="submitBtn" 
+                            class="btn-gradient text-white px-10 py-5 font-semibold text-lg">
+                        <span id="submitText">ส่งข้อมูลการสมัคร</span>
+                        <span id="loadingText" class="hidden">กำลังส่งข้อมูล...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    videoFileInput.addEventListener('change', (e)=> handleVideo(e.target.files[0]));
-    posterFileInput.addEventListener('change', (e)=> handlePoster(e.target.files[0]));
+    <!-- Footer -->
+    <footer class="footer-gradient text-white py-6 mt-12 rounded-t-3xl">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
+                <p class="text-sm opacity-90">© 2024 SPT MORAL SCHOOL</p>
+                <span class="hidden md:block text-white/30">|</span>
+                <p class="text-sm opacity-90">โรงเรียนคุณธรรม สพฐ. โรงเรียนสตรีพัทลุง</p>
+            </div>
+            <div class="mt-3 pt-3 border-t border-white/20">
+                <p class="text-xs opacity-75">ระบบกรอกข้อมูลการประกวดคลิปวิดีโอโครงงานคุณธรรม</p>
+            </div>
+        </div>
+    </footer>
 
-    // ดึง metadata ความยาววิดีโอ เพื่อตรวจความยาว <= 3 นาที
-    function handleVideo(file) {
-      if (!file) return;
-      if (file.type !== 'video/mp4') {
-        alert('ไฟล์ต้องเป็น .mp4 เท่านั้น');
-        videoFileInput.value = "";
-        return;
-      }
-      // ตรวจขนาดคร่าวๆ
-      if (file.size > 100 * 1024 * 1024) { // >100MB เตือนก่อน
-        if (!confirm('ไฟล์ขนาดใหญ่ อาจอัปโหลดไม่ได้หรือช้า ต้องการดำเนินการต่อหรือไม่?')) {
-          videoFileInput.value = "";
-          return;
-        }
-      }
-      const url = URL.createObjectURL(file);
-      const v = document.createElement('video');
-      v.preload = 'metadata';
-      v.src = url;
-      v.onloadedmetadata = function() {
-        URL.revokeObjectURL(url);
-        const duration = v.duration;
-        if (duration > 3 * 60 + 1) { // ให้เผื่อ 1 วินาที
-          alert('ความยาววิดีโอต้องไม่เกิน 3 นาที');
-          videoFileInput.value = "";
-          return;
-        }
-        videoFile = file;
-        videoPreview.innerHTML = `<div>ชื่อ: ${file.name} — ความยาว: ${Math.round(duration)} วินาที — ขนาด: ${Math.round(file.size/1024/1024)} MB</div>`;
-      };
-    }
+    <!-- Modal แสดงผลลัพธ์ -->
+    <div id="resultModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-3xl p-8 max-w-md mx-4 card-shadow">
+            <div class="text-center">
+                <div id="successIcon" class="hidden">
+                    <div class="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                        <svg class="h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">ส่งข้อมูลสำเร็จ!</h3>
+                    <p class="text-gray-600 mb-8">ข้อมูลของคุณได้ถูกบันทึกเรียบร้อยแล้ว</p>
+                </div>
+                <div id="errorIcon" class="hidden">
+                    <div class="mx-auto w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                        <svg class="h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">เกิดข้อผิดพลาด</h3>
+                    <p class="text-gray-600 mb-8" id="errorMessage">ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่อีกครั้ง</p>
+                </div>
+                <button onclick="closeModal()" class="btn-gradient text-white px-8 py-3 font-semibold">
+                    ตกลง
+                </button>
+            </div>
+        </div>
+    </div>
 
-    function handlePoster(file) {
-      if (!file) return;
-      if (file.type !== 'application/pdf') {
-        alert('โปสเตอร์ต้องเป็นไฟล์ PDF');
-        posterFileInput.value = "";
-        return;
-      }
-      posterFile = file;
-      posterPreview.innerHTML = `<div>ชื่อ: ${file.name} — ขนาด: ${Math.round(file.size/1024)} KB</div>`;
-    }
-
-    // Drag & drop support
-    ;['dragenter','dragover'].forEach(ev => {
-      videoDrop.addEventListener(ev, (e)=>{ e.preventDefault(); videoDrop.style.borderColor = 'rgba(31,95,191,0.45)';});
-      posterDrop.addEventListener(ev, (e)=>{ e.preventDefault(); posterDrop.style.borderColor = 'rgba(31,95,191,0.45)';});
-    });
-    ;['dragleave','drop'].forEach(ev => {
-      videoDrop.addEventListener(ev, (e)=>{ e.preventDefault(); videoDrop.style.borderColor = '';});
-      posterDrop.addEventListener(ev, (e)=>{ e.preventDefault(); posterDrop.style.borderColor = '';});
-    });
-    videoDrop.addEventListener('drop', (e)=>{
-      const f = e.dataTransfer.files[0]; handleVideo(f);
-    });
-    posterDrop.addEventListener('drop', (e)=>{
-      const f = e.dataTransfer.files[0]; handlePoster(f);
-    });
-
-    // ส่งฟอร์ม
-    document.getElementById('submissionForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      // ตรวจ fields บังคับ
-      const name = document.getElementById('name').value.trim();
-      const grade = document.getElementById('grade').value;
-      const classroom = document.getElementById('classroom').value;
-      const phone = document.getElementById('phone').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const projectTitle = document.getElementById('projectTitle').value.trim();
-
-      if(!name || !grade || !classroom) {
-        alert('กรุณากรอก ชื่อ, ระดับชั้น และ ห้องเรียน (จำเป็น)');
-        return;
-      }
-      if (!videoFile) { alert('กรุณาอัปโหลดคลิปวิดีโอ .mp4 (ไม่เกิน 3 นาที)'); return; }
-      if (!posterFile) { alert('กรุณาอัปโหลดโปสเตอร์เป็นไฟล์ PDF'); return; }
-
-      // แปลงไฟล์เป็น base64 (ระวังขนาด)
-      try {
-        const [videoBase64, posterBase64] = await Promise.all([fileToBase64(videoFile), fileToBase64(posterFile)]);
-        // ตัด prefix data:*;base64, ออก (Apps Script สามารถรับได้ทั้งแบบมีและไม่มี)
-        const payload = {
-          name, grade, classroom, phone, email, projectTitle,
-          rubricLink: RUBRIC_LINK || "",
-          videoBase64: videoBase64.replace(/^data:.*;base64,/, ""),
-          videoFilename: videoFile.name,
-          posterBase64: posterBase64.replace(/^data:.*;base64,/, ""),
-          posterFilename: posterFile.name
-        };
-
-        // แสดง loading
-        const btn = document.querySelector('button.primary');
-        btn.textContent = 'กำลังส่ง...'; btn.disabled = true;
-
-        const res = await fetch(ENDPOINT_URL, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
+    <script>
+        // File upload handlers
+        document.getElementById('videoFile').addEventListener('change', function(e) {
+            handleFileSelect(e, 'video');
         });
-        const data = await res.json();
-        if (data.status === 'success') {
-          alert('ส่งเรียบร้อยแล้ว ขอบคุณครับ');
-          document.getElementById('submissionForm').reset();
-          videoPreview.innerHTML = '';
-          posterPreview.innerHTML = '';
-        } else {
-          alert('เกิดข้อผิดพลาดในการส่ง: ' + (data.message||'ไม่ทราบสาเหตุ'));
+
+        document.getElementById('posterFile').addEventListener('change', function(e) {
+            handleFileSelect(e, 'poster');
+        });
+
+        function handleFileSelect(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type and size
+            if (type === 'video') {
+                if (!file.type.includes('mp4')) {
+                    alert('กรุณาเลือกไฟล์ MP4 เท่านั้น');
+                    event.target.value = '';
+                    return;
+                }
+                if (file.size > 100 * 1024 * 1024) { // 100MB
+                    alert('ไฟล์วิดีโอมีขนาดใหญ่เกิน 100MB');
+                    event.target.value = '';
+                    return;
+                }
+            } else if (type === 'poster') {
+                if (!file.type.includes('pdf')) {
+                    alert('กรุณาเลือกไฟล์ PDF เท่านั้น');
+                    event.target.value = '';
+                    return;
+                }
+                if (file.size > 10 * 1024 * 1024) { // 10MB
+                    alert('ไฟล์ PDF มีขนาดใหญ่เกิน 10MB');
+                    event.target.value = '';
+                    return;
+                }
+            }
+
+            // Show preview
+            const preview = document.getElementById(type + 'Preview');
+            const fileName = document.getElementById(type + 'FileName');
+            fileName.textContent = file.name;
+            preview.classList.remove('hidden');
         }
 
-      } catch (err) {
-        alert('ส่งไม่สำเร็จ: ' + err.message);
-      } finally {
-        const btn = document.querySelector('button.primary');
-        btn.textContent = 'ส่งผลงาน'; btn.disabled = false;
-      }
-    });
+        function removeFile(type) {
+            document.getElementById(type + 'File').value = '';
+            document.getElementById(type + 'Preview').classList.add('hidden');
+        }
 
-    // helper: file -> base64
-    function fileToBase64(file){
-      return new Promise((resolve, reject)=>{
-        const reader = new FileReader();
-        reader.onload = ()=> resolve(reader.result);
-        reader.onerror = (e)=> reject(e);
-        reader.readAsDataURL(file);
-      });
-    }
+        // Form submission
+        document.getElementById('contestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const loadingText = document.getElementById('loadingText');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            loadingText.classList.remove('hidden');
+            
+            // Get form data
+            const formData = new FormData();
+            formData.append('grade', document.getElementById('grade').value);
+            formData.append('classroom', document.getElementById('classroom').value);
+            formData.append('videoFile', document.getElementById('videoFile').files[0]);
+            formData.append('posterFile', document.getElementById('posterFile').files[0]);
+            formData.append('timestamp', new Date().toLocaleString('th-TH'));
+            
+            // Send data to Google Sheets via Apps Script
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby-GdBaM2EBNDScTESt6EyfZoebiYzM4LuPi-jub6tLS1WljDZRjlhH0xn4JC5v93wHeQ/exec';
+            
+            // Convert files to base64 for transmission
+            const videoFile = document.getElementById('videoFile').files[0];
+            const posterFile = document.getElementById('posterFile').files[0];
+            
+            Promise.all([
+                videoFile ? fileToBase64(videoFile) : Promise.resolve(null),
+                posterFile ? fileToBase64(posterFile) : Promise.resolve(null)
+            ]).then(([videoBase64, posterBase64]) => {
+                const submitData = {
+                    grade: document.getElementById('grade').value,
+                    classroom: document.getElementById('classroom').value,
+                    videoFileName: videoFile ? videoFile.name : '',
+                    videoFileData: videoBase64,
+                    posterFileName: posterFile ? posterFile.name : '',
+                    posterFileData: posterBase64,
+                    timestamp: new Date().toLocaleString('th-TH', {
+                        timeZone: 'Asia/Bangkok',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    })
+                };
 
-    document.getElementById('clearBtn').addEventListener('click', ()=>{
-      if (confirm('ต้องการล้างแบบฟอร์มหรือไม่?')) {
-        document.getElementById('submissionForm').reset();
-        videoPreview.innerHTML = '';
-        posterPreview.innerHTML = '';
-        videoFile = null; posterFile = null;
-      }
-    });
+                return fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(submitData)
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(result => {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                loadingText.classList.add('hidden');
+                
+                if (result.success) {
+                    // Show success modal
+                    showModal(true);
+                    
+                    // Reset form
+                    document.getElementById('contestForm').reset();
+                    document.getElementById('videoPreview').classList.add('hidden');
+                    document.getElementById('posterPreview').classList.add('hidden');
+                } else {
+                    throw new Error(result.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+                // Reset button state
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                loadingText.classList.add('hidden');
+                
+                // Show error modal
+                document.getElementById('errorMessage').textContent = 
+                    'เกิดข้อผิดพลาด: ' + (error.message || 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+                showModal(false);
+            });
+        });
 
-  </script>
-</body>
+        function showModal(success) {
+            const modal = document.getElementById('resultModal');
+            const successIcon = document.getElementById('successIcon');
+            const errorIcon = document.getElementById('errorIcon');
+            
+            if (success) {
+                successIcon.classList.remove('hidden');
+                errorIcon.classList.add('hidden');
+            } else {
+                successIcon.classList.add('hidden');
+                errorIcon.classList.remove('hidden');
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('resultModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Helper function to convert file to base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    // Remove the data:type/subtype;base64, prefix
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Drag and drop functionality
+        const uploadAreas = document.querySelectorAll('.file-upload-area');
+        
+        uploadAreas.forEach(area => {
+            area.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            area.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            
+            area.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const input = this.parentElement.querySelector('input[type="file"]');
+                    input.files = files;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97b6856036dc74f2',t:'MTc1NzI1MTQxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
